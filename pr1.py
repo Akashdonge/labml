@@ -68,3 +68,19 @@ plt.title('ROC Curve')
 plt.legend()
 plt.grid()
 plt.show()
+
+
+import pandas as pd
+
+# Create simple meaningful dataset
+data = {
+    'Age': [22, 25, 47, 52, 46, 56, 23, 30, 28, 48],
+    'EstimatedSalary': [15000, 29000, 48000, 60000, 52000, 83000, 18000, 40000, 39000, 79000],
+    'Purchased': [0, 0, 1, 1, 1, 1, 0, 0, 0, 1]
+}
+
+df = pd.DataFrame(data)
+
+# Save it as a CSV file
+df.to_csv('purchase_prediction_data.csv', index=False)
+print("CSV file 'purchase_prediction_data.csv' has been created.")
