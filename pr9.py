@@ -1,72 +1,67 @@
-import pandas as pd
-import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import silhouette_score
 from sklearn.cluster import AgglomerativeClustering
-from scipy.cluster.hierarchy import linkage, dendrogram, fcluster
+from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
+from sklearn.metrics import silhouette_score
+import matplotlib.pyplot as plt
 
-# Load Iris dataset
-iris = load_iris()
-X = iris.data
-
-# Standardize the data
+# Load the Iris dataset
+X = load_iris().data
 scaler = StandardScaler()
 X_scaled = scaler.fit_transform(X)
+# ------------------------
+# AGNES (Bottom-Up Clustering)
+# ------------------------
+agnes_linkage = linkage(X_scaled, method='ward')  # Ward linkage used for AGNES
+agnes_labels = fcluster(agnes_linkage, 3, criterion='maxclust')
 
 # ------------------------
-# AGNES (Agglomerative)
+# DIANA (Top-Down Clustering - Simulated)
 # ------------------------
-# Create linkage matrix
-agnes_link = linkage(X_scaled, method='ward')
+diana_linkage = linkage(X_scaled, method='complete')  # Complete linkage simulates DIANA
+diana_labels = fcluster(diana_linkage, 3, criterion='maxclust')
 
-# Dendrogram for AGNES
-plt.figure()
-dendrogram(agnes_link)
-plt.title("AGNES Dendrogram")
+# ------------------------
+# Dendrograms
+# ------------------------
+plt.figure(figsize=(6, 4))
+dendrogram(agnes_linkage)
+plt.title("AGNES - Dendrogram (Ward Linkage)")
+plt.tight_layout()
 plt.show()
 
-# Fit AGNES model with 3 clusters
-agnes_model = AgglomerativeClustering(n_clusters=3, linkage='ward', metric='euclidean')
-agnes_labels = agnes_model.fit_predict(X_scaled)
+plt.figure(figsize=(6, 4))
+dendrogram(diana_linkage)
+plt.title("DIANA - Dendrogram (Complete Linkage)")
+plt.tight_layout()
+plt.show()
 
-# Plot AGNES clusters
+# ------------------------
+# Cluster Visualizations using first two features
+# ------------------------
 plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=agnes_labels, cmap='viridis')
-plt.title("AGNES Clustering (3 clusters)")
+plt.title("AGNES Clustering (using first two features)")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
+plt.show()
+
+plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=diana_labels, cmap='plasma')
+plt.title("DIANA Clustering (using first two features)")
+plt.xlabel("Feature 1")
+plt.ylabel("Feature 2")
 plt.show()
 
 # ------------------------
-# DIANA (Simulated)
+# Compare Using Silhouette Score
 # ------------------------
-# Use 'complete' linkage for DIANA-like effect
-diana_link = linkage(X_scaled, method='complete')
+agnes_score = silhouette_score(X_scaled, agnes_labels)
+diana_score = silhouette_score(X_scaled, diana_labels)
 
-# Dendrogram for DIANA
-plt.figure()
-dendrogram(diana_link)
-plt.title("DIANA Dendrogram (Simulated)")
-plt.show()
+print(f"AGNES Silhouette Score: {agnes_score:.4f}")
+print(f"DIANA Silhouette Score: {diana_score:.4f}")
 
-# Form 3 clusters from DIANA
-diana_labels = fcluster(diana_link, 3, criterion='maxclust')
-
-# Plot DIANA clusters
-plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=diana_labels, cmap='viridis')
-plt.title("DIANA Clustering (3 clusters, simulated)")
-plt.show()
-
-# ------------------------
-# Compare with Silhouette Score
-# ------------------------
-score_agnes = silhouette_score(X_scaled, agnes_labels)
-score_diana = silhouette_score(X_scaled, diana_labels)
-
-print(f"Silhouette Score - AGNES: {score_agnes:.2f}")
-print(f"Silhouette Score - DIANA: {score_diana:.2f}")
-
-if score_agnes > score_diana:
-    print("AGNES gives better clusters.")
-elif score_diana > score_agnes:
-    print("DIANA gives better clusters.")
+if agnes_score > diana_score:
+    print("AGNES gives better clustering based on higher silhouette score.")
+elif diana_score > agnes_score:
+    print("DIANA gives better clustering based on higher silhouette score.")
 else:
-    print("Both methods give similar results.")
+    print("Both methods perform equally well based on silhouette score.")
