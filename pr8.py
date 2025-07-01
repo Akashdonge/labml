@@ -9,7 +9,25 @@ iris = load_iris()
 X = iris.data
 y = iris.target
 df = pd.DataFrame(X, columns=iris.feature_names)
+# Step 1: Create the dataset
+# data = {
+#     'Age': ['Youth', 'Youth', 'Middle', 'Senior', 'Senior', 'Senior', 'Middle', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle', 'Middle', 'Senior'],
+#     'Income': ['High', 'High', 'High', 'Medium', 'Low', 'Low', 'Low', 'Medium', 'Low', 'Medium', 'Medium', 'Medium', 'High', 'Medium'],
+#     'Buys_Computer': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
+# }
+# df = pd.DataFrame(data)
 
+#  Step 2: Encode categorical variables
+# le_age = LabelEncoder()
+# le_income = LabelEncoder()
+# le_target = LabelEncoder()
+
+# df['Age'] = le_age.fit_transform(df['Age'])
+# df['Income'] = le_income.fit_transform(df['Income'])
+# df['Buys_Computer'] = le_target.fit_transform(df['Buys_Computer'])
+
+# Step 3: Use only Age and Income for clustering
+# X = df[['Age', 'Income']].values
 # Step 2: Reduce to 2 dimensions for visualization using PCA
 pca = PCA(n_components=2)
 X_pca = pca.fit_transform(X)
