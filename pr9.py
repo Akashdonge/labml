@@ -38,13 +38,13 @@ plt.show()
 # ------------------------
 # Cluster Visualizations using first two features
 # ------------------------
-plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=agnes_labels, cmap='viridis')
+plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=agnes_labels)
 plt.title("AGNES Clustering (using first two features)")
 plt.xlabel("Feature 1")
 plt.ylabel("Feature 2")
 plt.show()
 
-plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=diana_labels, cmap='plasma')
+plt.scatter(X_scaled[:, 0], X_scaled[:, 1], c=diana_labels)
 plt.title("DIANA Clustering (using first two features)")
 plt.xlabel("Feature 1")
 plt.ylabel("Feature 2")
