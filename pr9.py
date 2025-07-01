@@ -3,7 +3,7 @@ from sklearn.cluster import AgglomerativeClustering
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 from sklearn.metrics import silhouette_score
 import matplotlib.pyplot as plt
-
+from sklearn.preprocessing import StandardScaler
 # Load the Iris dataset
 X = load_iris().data
 scaler = StandardScaler()
