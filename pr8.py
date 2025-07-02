@@ -36,16 +36,14 @@ X_pca = pca.fit_transform(X)
 ks = [2, 3, 4]
 plt.figure(figsize=(15, 4))
 
-for idx, k in enumerate(ks):
-    kmeans = KMeans(n_clusters=k, random_state=42, n_init=10)
-    clusters = kmeans.fit_predict(X)
-
-    # Plotting the clusters
-    plt.subplot(1, 3, idx + 1)
-    plt.scatter(X_pca[:, 0], X_pca[:, 1], c=clusters, cmap='viridis', s=40)
-    plt.title(f'K-Means Clustering (K={k})')
-    plt.xlabel('PCA Component 1')
-    plt.ylabel('PCA Component 2')
-
-plt.tight_layout()
+for idx,k in enumerate(ks):
+    km=KMeans(n_clusters=k,random_state=42,n_init=10)
+    cluster=km.fit_predict(X)
+    plt.subplot(1,3,idx+1)
+    plt.scatter(x_pca[:,0],x_pca[:,1],c=cluster,s=10)
+    plt.scatter(km.cluster_centers_[:, 0], km.cluster_centers_[:, 1], c='red', marker='X', s=100)
+    plt.title(f'k mmeas clusterng for k={k}')
+    plt.xlabel("pca 1")
+    plt.ylabel("pca 2")
+    plt.grid()
 plt.show()
