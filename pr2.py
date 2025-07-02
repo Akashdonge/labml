@@ -8,11 +8,7 @@ print(iris.target_names)
 # Step 1: Load iris data and convert to DataFrame
 iris = load_iris()
 df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
-df['species'] = iris.target_names[iris.target]  # Add species as string labels
-print(df.head())
-# Step 2: Encode species label
-le_species = LabelEncoder()
-df['species'] = le_species.fit_transform(df['species'])
+df['species'] = iris.target   # Add species as string labels\
 
 # Step 3: Features and target
 X = df[iris.feature_names]
