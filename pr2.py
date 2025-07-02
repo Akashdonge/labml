@@ -3,11 +3,16 @@ from sklearn.datasets import load_iris
 from sklearn.preprocessing import LabelEncoder
 from sklearn.tree import DecisionTreeClassifier, export_text, plot_tree
 import matplotlib.pyplot as plt
-
+print(iris.feature_names)
+print(iris.target_names)
+# Step 1: Load iris data and convert to DataFrame
 iris = load_iris()
 df = pd.DataFrame(data=iris.data, columns=iris.feature_names)
-df['species'] = iris.target  # Add species as string labels
+df['species'] = iris.target_names[iris.target]  # Add species as string labels
 print(df.head())
+# Step 2: Encode species label
+le_species = LabelEncoder()
+df['species'] = le_species.fit_transform(df['species'])
 
 # Step 3: Features and target
 X = df[iris.feature_names]
@@ -23,8 +28,9 @@ print(export_text(clf, feature_names=X.columns.tolist()))
 
 # Step 6: Visualize decision tree
 plt.figure(figsize=(10, 6))
-plot_tree(model,filled=True,feature_names=load_iris().feature_names,class_names=load_iris().target_names)
+plot_tree(clf, feature_names=X.columns, class_names=le_species.classes_, filled=True)
 plt.title("Iris Decision Tree (ID3 - Entropy)")
+plt.tight_layout()
 plt.show()
 
 # Step 7: Predict a new sample
