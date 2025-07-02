@@ -30,14 +30,17 @@ for n in tree_counts:
     f1_list.append(f1_score(y_test, y_pred))
 
 # Step 4: Plot Results
-plt.figure(figsize=(12, 8))
+plt.figure(figsize=(10, 6))
 plt.plot(tree_counts, accuracy_list, label='Accuracy', marker='o')
-plt.plot(tree_counts, precision_list, label='Precision', marker='s')
-plt.plot(tree_counts, recall_list, label='Recall', marker='^')
-plt.plot(tree_counts, f1_list, label='F1 Score', marker='d')
+plt.plot(tree_counts, precision_list, label='Precision', marker='o')
+plt.plot(tree_counts, recall_list, label='Recall', marker='o')
+plt.plot(tree_counts, f1_list, label='F1 Score', marker='o')
+
 plt.title("Random Forest Performance vs Number of Trees")
 plt.xlabel("Number of Trees (n_estimators)")
 plt.ylabel("Score")
 plt.legend()
 plt.grid(True)
+plt.tight_layout()
 plt.show()
+
