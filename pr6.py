@@ -6,12 +6,14 @@ from sklearn.metrics import accuracy_score
 
 # Create dataset
 data = {
-    'Age': ['Youth', 'Youth', 'Middle', 'Senior', 'Senior', 'Senior', 'Middle', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle', 'Middle', 'Senior'],
+    'Age': ['Youth', 'Youth', 'Middle', 'Senior', 'Senior', None, 'Middle', 'Youth', 'Youth', 'Senior', 'Youth', 'Middle', 'Middle', 'Senior'],
     'Income': ['High', 'High', 'High', 'Medium', 'Low', 'Low', 'Low', 'Medium', 'Low', 'Medium', 'Medium', 'Medium', 'High', 'Medium'],
     'Buys_Computer': ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No']
 }
 df = pd.DataFrame(data)
-
+# Fill missing categorical values with mode
+df['Age'].fillna(df['Age'].mode()[0], inplace=True)
+df['Income'].fillna(df['Income'].mode()[0], inplace=True)
 # Encode categorical values
 le_age = LabelEncoder()
 le_income = LabelEncoder()
