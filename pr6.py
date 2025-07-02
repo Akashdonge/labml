@@ -53,3 +53,7 @@ for i in range(len(new_data)):
     income = le_income.inverse_transform([new_data.loc[i, 'Income']])[0]
     result = le_target.inverse_transform([new_pred[i]])[0]
     print(f"Age: {age}, Income: {income} => Predicted: {result}")
+
+plt.scatter(X['Age'], X['Income'], c=y)
+plt.scatter(new['Age'], new['Income'], c=new_pred, marker='o')
+plt.show()
